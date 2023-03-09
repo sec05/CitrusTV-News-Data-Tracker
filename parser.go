@@ -34,7 +34,17 @@ func Parser()  *string{
 		DnsResponseCode string
 		DnsOpCode       string
 	}
-	handle , err = pcap.OpenLive("\\Device\\NPF_{F7A0656D-948F-4FC0-88F4-113C6332D5E7} Intel(R) 82574L Gigabit Network Connection",22,true,pcap.BlockForever)
+	var vlan10 pcap.Interface
+	p, _:= pcap.FindAllDevs()
+	for i := range p{
+		address := p[i].Addresses
+		for j := range p[i].Addresses{
+			if address[j].IP.String() == "10.10.2.21"{
+				vlan10 = p[i]
+			}
+		}
+	}
+	handle , err = pcap.OpenLive(vlan10.Name,22,true,pcap.BlockForever)
 	if err != nil{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
