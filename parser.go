@@ -45,8 +45,8 @@ func Parser()  *string{
 		}
 	}
 	handle , err = pcap.OpenLive(vlan10.Name,22,true,pcap.BlockForever)
-	defer log.Print("Listening to "+vlan10.Name+" on ")
-	defer log.Println(handle)
+	log.Print("Listening to "+vlan10.Name+" on ")
+	log.Println(handle)
 	if err != nil{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
