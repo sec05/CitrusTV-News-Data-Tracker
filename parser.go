@@ -36,6 +36,7 @@ func Parser()  *string{
 	}
 	var vlan10 pcap.Interface
 	p, _:= pcap.FindAllDevs()
+	log.Println(p)
 	for i := range p{
 		address := p[i].Addresses
 		for j := range p[i].Addresses{
@@ -61,6 +62,7 @@ func Parser()  *string{
 		}
 	err = decoder.DecodeLayers(data, &decodedLayers)
 	for _,t := range decodedLayers{
+		log.Println(t);
 		switch t{
 			case layers.LayerTypeIPv4:
 				SrcIP = ip4.SrcIP.String()
