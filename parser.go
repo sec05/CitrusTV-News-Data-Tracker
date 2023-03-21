@@ -60,6 +60,7 @@ func Parser()  *string{
 			continue	
 		}
 	err = decoder.DecodeLayers(data, &decodedLayers)
+	log.Println(decodedLayers)
 	if err != nil{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
