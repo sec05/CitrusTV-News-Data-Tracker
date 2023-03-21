@@ -55,8 +55,8 @@ func (database Database) Close() {
     }()
 }
 
-func (database *Database) InsertOne(db string, col string, doc interface{}) (*mongo.InsertOneResult, error) {
-	collection := database.client.Database(db).Collection(col)
+func (database *Database) InsertOne(doc interface{}) (*mongo.InsertOneResult, error) {
+	collection := database.client.Database("CitrusTV-Data").Collection("VLAN1")
 	result, err := collection.InsertOne(database.ctx,doc)
 	return result,err
 }

@@ -46,8 +46,7 @@ func Parser()  *string{
 		}
 	}
 	handle , err = pcap.OpenLive(vlan10.Name,22,true,pcap.BlockForever)
-	log.Print("Listening to "+vlan10.Name+" on ")
-	log.Println(handle)
+	log.Println("Listening to "+vlan10.Name+" on "+handle.LinkType().String())
 	if err != nil{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
@@ -61,8 +60,11 @@ func Parser()  *string{
 			continue	
 		}
 	err = decoder.DecodeLayers(data, &decodedLayers)
+	if err != nil{
+		log.Fatalln("Parser recieved an error: "+err.Error())
+	}
 	for _,t := range decodedLayers{
-		log.Println(t);
+		log.Println(t.LayerTypes());
 		switch t{
 			case layers.LayerTypeIPv4:
 				SrcIP = ip4.SrcIP.String()
