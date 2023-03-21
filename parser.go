@@ -77,7 +77,7 @@ func Parser()  *string{
 				if (dnsANCount == 0 && dnsResponseCode > 0) || (dnsANCount > 0) {
 
 					log.Println("————————")
-					log.Println("    DNS Record Detected")
+					log.Println("\tDNS Record Detected")
 
 					for _, dnsQuestion := range dns.Questions {
 
@@ -91,18 +91,18 @@ func Parser()  *string{
 							DnsOpCode:       strconv.Itoa(dnsOpCode),
 							DnsResponseCode: strconv.Itoa(dnsResponseCode),
 							NumberOfAnswers: strconv.Itoa(dnsANCount)}
-							log.Println("    DNS OpCode: ", strconv.Itoa(int(dns.OpCode)))
-							log.Println("    DNS ResponseCode: ", dns.ResponseCode.String())
-							log.Println("    DNS # Answers: ", strconv.Itoa(dnsANCount))
-							log.Println("    DNS Question: ", string(dnsQuestion.Name))
-							log.Println("    DNS Endpoints: ", SrcIP, DstIP)
+							log.Println("\tDNS OpCode: ", strconv.Itoa(int(dns.OpCode)))
+							log.Println("\tDNS ResponseCode: ", dns.ResponseCode.String())
+							log.Println("\tDNS # Answers: ", strconv.Itoa(dnsANCount))
+							log.Println("\tDNS Question: ", string(dnsQuestion.Name))
+							log.Println("\tDNS Endpoints: ", SrcIP, DstIP)
 
 						if dnsANCount > 0 {
 
 							for _, dnsAnswer := range dns.Answers {
 								d.DnsAnswerTTL = append(d.DnsAnswerTTL,strconv.Itoa(int(dnsAnswer.TTL)))
-								if dnsAnswer.IP.String() != "<nil>" {
-									log.Println("    DNS Answer: ", dnsAnswer.IP.String())
+								if dnsAnswer.IP != nil{
+									log.Println("\tDNS Answer: ", dnsAnswer.IP.String())
 									d.DnsAnswer = append(d.DnsAnswer, dnsAnswer.IP.String())
 								}
 							}
