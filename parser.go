@@ -51,7 +51,7 @@ func Parser()  *string{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
 	defer handle.Close()
-	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeEthernet, &dns, &eth, &ip4, &ip6)
+	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeDNS, &dns, &eth, &ip4, &ip6)
 	decodedLayers := make([]gopacket.LayerType, 0,10)
 	for {
 		data, _, err := handle.ReadPacketData()
