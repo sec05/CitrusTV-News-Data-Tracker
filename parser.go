@@ -15,7 +15,7 @@ func Parser()  *string{
 		//InetAddr 	string
 		SrcIP    	string
 		DstIP    	string
-		//eth layers.Ethernet
+		eth layers.Ethernet
 	 	ip4 layers.IPv4
 	 	ip6 layers.IPv6
 	 	//tcp layers.TCP
@@ -51,7 +51,7 @@ func Parser()  *string{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
 	defer handle.Close()
-	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeEthernet, &dns)
+	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeEthernet, &dns, &eth, &ip4, &ip6)
 	decodedLayers := make([]gopacket.LayerType, 0,10)
 	for {
 		data, _, err := handle.ReadPacketData()
