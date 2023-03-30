@@ -45,12 +45,18 @@ func Parser()  *string{
 			}
 		}
 	}
-	handle , err = pcap.OpenLive(vlan10.Name,22,true,pcap.BlockForever)
+	handle , err = pcap.OpenLive(vlan10.Name,1600,false,pcap.BlockForever)
 	log.Println("Listening to "+vlan10.Name+" on "+handle.LinkType().String())
 	if err != nil{
 		log.Fatalln("Parser recieved an error: "+err.Error())
 	}
 	defer handle.Close()
+	var filter string = "udp and port 53 and src host " + vlan10.Addresses[0].IP.String()
+	log.Println("    Filter: ", filter)
+	err = handle.SetBPFFilter(filter)
+	if err != nil {
+		log.Fatal(err)
+	}
 	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeDNS, &dns, &eth, &ip4, &ip6)
 	decodedLayers := make([]gopacket.LayerType, 0,10)
 	for {
@@ -59,6 +65,7 @@ func Parser()  *string{
 			log.Println("Error reading packet data: ", err)
 			continue	
 		}
+	
 	err = decoder.DecodeLayers(data, &decodedLayers)
 	log.Println(decodedLayers)
 	if err != nil{
