@@ -18,8 +18,8 @@ func Parser()  *string{
 		eth layers.Ethernet
 	 	ip4 layers.IPv4
 	 	ip6 layers.IPv6
-	 	//tcp layers.TCP
-	 	//udp layers.UDP
+	 	tcp layers.TCP
+	 	udp layers.UDP
 	 	
 		dns layers.DNS
 	)
@@ -57,7 +57,7 @@ func Parser()  *string{
 	if err != nil {
 		log.Fatal(err)
 	}
-	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeDNS, &dns, &eth, &ip4, &ip6)
+	decoder := gopacket.NewDecodingLayerParser(layers.LayerTypeDNS, &dns, &eth, &ip4, &ip6, &tcp, &udp)
 	decodedLayers := make([]gopacket.LayerType, 0,10)
 	for {
 		data, _, err := handle.ReadPacketData()
